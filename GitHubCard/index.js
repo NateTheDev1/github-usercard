@@ -13,8 +13,9 @@ axios
       .then(friends => {
         // console.log(friends.data);
         friends.data.forEach(f => {
-          friendCreator(f);
+          followersArray.push(f.login);
         });
+        addFriends();
       })
       .catch(err => {
         console.log(err);
@@ -47,6 +48,19 @@ axios
 
 const followersArray = [];
 
+const addFriends = () => {
+  followersArray.forEach(f => {
+    axios
+      .get(`${prefix}${f}`)
+      .then(response => {
+        cardCreator(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
+
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -77,68 +91,6 @@ const followersArray = [];
 
 const cardCreator = user => {
   const gitUser = user.data;
-  let elements = [];
-  let infoElements = [];
-  let cardContainer = document.createElement("div");
-  cardContainer.classList.add("card");
-
-  let picture = document.createElement("img");
-  picture.src = gitUser.avatar_url;
-  elements.push(picture);
-
-  let cardInfo = document.createElement("div");
-  cardInfo.classList.add("card-info");
-
-  let h3 = document.createElement("h3");
-  h3.textContent = gitUser.name;
-  h3.classList.add("name");
-  infoElements.push(h3);
-
-  let username = document.createElement("p");
-  username.textContent = gitUser.login;
-  username.classList.add("username");
-  infoElements.push(username);
-
-  let location = document.createElement("p");
-  location.textContent = gitUser.location;
-  infoElements.push(location);
-
-  let profile = document.createElement("p");
-  profile.textContent = "Profile: ";
-
-  let url = document.createElement("a");
-  url.href = gitUser.url;
-  url.textContent = gitUser.url;
-  profile.appendChild(url);
-  infoElements.push(profile);
-
-  let followers = document.createElement("p");
-  followers.textContent = `Followers: ${gitUser.followers}`;
-  infoElements.push(followers);
-
-  let following = document.createElement("p");
-  following.textContent = `Following: ${gitUser.following}`;
-  infoElements.push(following);
-
-  let bio = document.createElement("p");
-  bio.textContent = `Bio: ${gitUser.bio}`;
-  infoElements.push(bio);
-
-  infoElements.forEach(e => {
-    cardInfo.appendChild(e);
-  });
-
-  elements.push(cardInfo);
-
-  let cards = document.querySelector(".cards");
-  elements.forEach(e => {
-    cardContainer.appendChild(e);
-  });
-
-  cards.appendChild(cardContainer);
-};
-
-const friendCreator = gitUser => {
   let elements = [];
   let infoElements = [];
   let cardContainer = document.createElement("div");
