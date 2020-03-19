@@ -100,6 +100,11 @@ const cardCreator = user => {
   picture.src = gitUser.avatar_url;
   elements.push(picture);
 
+  const calender = document.createElement("div");
+  calender.classList.add("calender");
+  GitHubCalendar(calender, gitUser.login);
+  // elements.push(calender);
+
   let cardInfo = document.createElement("div");
   cardInfo.classList.add("card-info");
 
@@ -150,4 +155,5 @@ const cardCreator = user => {
   });
 
   cards.appendChild(cardContainer);
+  cards.appendChild(calender);
 };
